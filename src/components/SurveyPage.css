@@ -81,4 +81,10 @@
       width: 100%;
     }
   }
+  .char-count {
+    font-size: 0.85rem;
+    color: #555;
+    text-align: right;
+    margin-top: 4px;
+  }
   

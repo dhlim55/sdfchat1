@@ -5,19 +5,28 @@ import "./SurveyPage.css";
 
 export default function SimpleSurveyPage({ userID }) {
   const questions = [
-    "당신이 가장 자주 사용하는 앱은 무엇인가요?",
-    "최근 일주일 간 하루 평균 스마트폰 사용 시간은 얼마인가요?",
-    "디지털 기기가 당신의 일상에 어떤 영향을 주고 있나요?"
+    "오늘날 인터넷이 직면한 가장 중요하고 가장 심각한 문제는 무엇이라고 생각하시며, 그 이유는 무엇인가요?",
+    "여행 중 스마트폰을 어떤 방식으로 활용하시나요? 구체적인 예시나 유용한 기능이 있다면 함께 말씀해주세요.",
+    "현재 우리가 직면한 환경 문제의 주요 원인은 무엇이라고 생각하시나요? 그러한 원인이 발생하게 된 배경이나 사회적 요인에는 어떤 것들이 있다고 보시나요?",
+    "인공지능의 발전이 사회에 미치는 영향에 대해 어떻게 평가하시나요? 긍정적인 점과 우려되는 점이 있다면 무엇인가요?",
+    "친환경 에너지가 미래의 주요 에너지원이 될 수 있다고 보십니까? 그에 따른 장점과 단점은 무엇이라고 생각하시나요?"
   ];
 
   const [answers, setAnswers] = useState(Array(questions.length).fill(""));
   const [submitted, setSubmitted] = useState(false);
+  const [charCounts, setCharCounts] = useState(Array(questions.length).fill(0));
+
 
   const handleChange = (index, value) => {
     const updated = [...answers];
     updated[index] = value;
     setAnswers(updated);
+  
+    const updatedCharCounts = [...charCounts];
+    updatedCharCounts[index] = value.length;
+    setCharCounts(updatedCharCounts);
   };
+  
 
   const handleSubmit = async () => {
     if (answers.some((ans) => !ans.trim())) {
@@ -66,13 +75,15 @@ export default function SimpleSurveyPage({ userID }) {
 
         {questions.map((q, i) => (
           <div className="question-block" key={i}>
-            <label>Q{i + 1}. {q}</label>
-            <textarea
-              value={answers[i]}
-              onChange={(e) => handleChange(i, e.target.value)}
-              placeholder="여기에 입력하세요..."
-            />
-          </div>
+          <label>Q{i + 1}. {q}</label>
+          <textarea
+            value={answers[i]}
+            onChange={(e) => handleChange(i, e.target.value)}
+            placeholder="여기에 입력하세요..."
+          />
+          <div className="char-count">{charCounts[i]}자/300자</div> {/* 글자 수 표시 */}
+        </div>
+        
         ))}
 
         <button className="submit-button" onClick={handleSubmit}>
