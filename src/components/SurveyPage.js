@@ -2,6 +2,7 @@ import { useState } from "react";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
 import "./SurveyPage.css";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SimpleSurveyPage({ userID }) {
   const questions = [
@@ -34,7 +35,9 @@ export default function SimpleSurveyPage({ userID }) {
       return;
     }
 
-    await addDoc(collection(db, "SurveyResponsescase1"), {
+    const docID = `user${userID}`;
+
+    await setDoc(doc(db, "SurveyResponsescase1",docID), {
       userID,
       responses: questions.map((q, i) => ({
         question: q,
@@ -57,6 +60,8 @@ export default function SimpleSurveyPage({ userID }) {
         <section className="survey-section">
           <h2>모든 질문에 답변해주셔서 감사합니다!</h2>
           <p>설문이 성공적으로 제출되었습니다.</p>
+          <p>아래 링크로 접속해 폼을 작성해주시면, 빠른 사례비 지급에 도움이 됩니다.</p>
+          <p><a href="https://forms.gle/FwNUCTzx3kFQYqEj6" target="_blank">https://forms.gle/FwNUCTzx3kFQYqEj6</a></p>
         </section>
       </div>
     );
